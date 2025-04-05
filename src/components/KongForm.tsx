@@ -8,12 +8,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { TagInput } from './TagInput';
+import { Loader2 } from 'lucide-react';
 
 interface KongFormProps {
   onSubmit: (data: KongPRData) => void;
+  isLoading?: boolean;
 }
 
-export const KongForm: React.FC<KongFormProps> = ({ onSubmit }) => {
+export const KongForm: React.FC<KongFormProps> = ({ onSubmit, isLoading = false }) => {
   const [formData, setFormData] = React.useState<KongPRData>({
     serviceName: '',
     routePath: '',
@@ -57,6 +59,7 @@ export const KongForm: React.FC<KongFormProps> = ({ onSubmit }) => {
           onChange={(e) => handleChange('serviceName', e.target.value)}
           placeholder="my-api-service"
           required
+          disabled={isLoading}
         />
       </div>
 
@@ -68,6 +71,7 @@ export const KongForm: React.FC<KongFormProps> = ({ onSubmit }) => {
           onChange={(e) => handleChange('routePath', e.target.value)}
           placeholder="/api/v1/resource"
           required
+          disabled={isLoading}
         />
       </div>
 
@@ -80,6 +84,7 @@ export const KongForm: React.FC<KongFormProps> = ({ onSubmit }) => {
                 id={`method-${method}`}
                 checked={formData.methods.includes(method)}
                 onCheckedChange={() => handleMethodToggle(method)}
+                disabled={isLoading}
               />
               <Label htmlFor={`method-${method}`} className="text-sm font-normal">
                 {method}
@@ -95,6 +100,7 @@ export const KongForm: React.FC<KongFormProps> = ({ onSubmit }) => {
           placeholder="Add hosts (e.g. api.example.com)"
           tags={formData.hosts}
           setTags={(hosts) => handleChange('hosts', hosts)}
+          disabled={isLoading}
         />
       </div>
 
@@ -104,6 +110,7 @@ export const KongForm: React.FC<KongFormProps> = ({ onSubmit }) => {
           placeholder="Add tags (e.g. api, internal)"
           tags={formData.tags}
           setTags={(tags) => handleChange('tags', tags)}
+          disabled={isLoading}
         />
       </div>
 
@@ -112,6 +119,7 @@ export const KongForm: React.FC<KongFormProps> = ({ onSubmit }) => {
         <Select 
           value={formData.environment} 
           onValueChange={(value) => handleChange('environment', value)}
+          disabled={isLoading}
         >
           <SelectTrigger>
             <SelectValue placeholder="Select environment" />
@@ -134,6 +142,7 @@ export const KongForm: React.FC<KongFormProps> = ({ onSubmit }) => {
           onChange={(e) => handleChange('description', e.target.value)}
           placeholder="Brief description of the Kong route purpose"
           rows={3}
+          disabled={isLoading}
         />
       </div>
 
@@ -141,8 +150,16 @@ export const KongForm: React.FC<KongFormProps> = ({ onSubmit }) => {
         type="submit" 
         className="w-full"
         variant="default"
+        disabled={isLoading}
       >
-        Generate PR
+        {isLoading ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Generating...
+          </>
+        ) : (
+          'Generate PR'
+        )}
       </Button>
     </form>
   );

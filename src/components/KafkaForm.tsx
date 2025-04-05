@@ -7,12 +7,14 @@ import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { Loader2 } from 'lucide-react';
 
 interface KafkaFormProps {
   onSubmit: (data: KafkaPRData) => void;
+  isLoading?: boolean;
 }
 
-export const KafkaForm: React.FC<KafkaFormProps> = ({ onSubmit }) => {
+export const KafkaForm: React.FC<KafkaFormProps> = ({ onSubmit, isLoading = false }) => {
   const [formData, setFormData] = React.useState<KafkaPRData>({
     topicName: '',
     partitions: 3,
@@ -49,6 +51,7 @@ export const KafkaForm: React.FC<KafkaFormProps> = ({ onSubmit }) => {
           onChange={(e) => handleChange('topicName', e.target.value)}
           placeholder="my-service.events"
           required
+          disabled={isLoading}
         />
       </div>
 
@@ -62,6 +65,7 @@ export const KafkaForm: React.FC<KafkaFormProps> = ({ onSubmit }) => {
           value={[formData.partitions]}
           onValueChange={(value) => handleChange('partitions', value[0])}
           className="py-4"
+          disabled={isLoading}
         />
       </div>
 
@@ -75,6 +79,7 @@ export const KafkaForm: React.FC<KafkaFormProps> = ({ onSubmit }) => {
           value={[formData.replicationFactor]}
           onValueChange={(value) => handleChange('replicationFactor', value[0])}
           className="py-4"
+          disabled={isLoading}
         />
       </div>
 
@@ -83,6 +88,7 @@ export const KafkaForm: React.FC<KafkaFormProps> = ({ onSubmit }) => {
         <Select 
           value={formData.retentionMs.toString()} 
           onValueChange={(value) => handleChange('retentionMs', parseInt(value))}
+          disabled={isLoading}
         >
           <SelectTrigger>
             <SelectValue placeholder="Select retention period" />
@@ -102,6 +108,7 @@ export const KafkaForm: React.FC<KafkaFormProps> = ({ onSubmit }) => {
         <Select 
           value={formData.environment} 
           onValueChange={(value) => handleChange('environment', value)}
+          disabled={isLoading}
         >
           <SelectTrigger>
             <SelectValue placeholder="Select environment" />
@@ -124,6 +131,7 @@ export const KafkaForm: React.FC<KafkaFormProps> = ({ onSubmit }) => {
           onChange={(e) => handleChange('description', e.target.value)}
           placeholder="Brief description of the Kafka topic purpose"
           rows={3}
+          disabled={isLoading}
         />
       </div>
 
@@ -131,8 +139,16 @@ export const KafkaForm: React.FC<KafkaFormProps> = ({ onSubmit }) => {
         type="submit" 
         className="w-full"
         variant="default"
+        disabled={isLoading}
       >
-        Generate PR
+        {isLoading ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Generating...
+          </>
+        ) : (
+          'Generate PR'
+        )}
       </Button>
     </form>
   );

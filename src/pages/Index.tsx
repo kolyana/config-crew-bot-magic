@@ -9,6 +9,9 @@ const Index = () => {
         <p className="text-muted-foreground">
           Generate PRs for Kafka topics, Kong routes, and Gatekeeper routes
         </p>
+        <p className="text-sm text-muted-foreground mt-1">
+          Connected to FastAPI backend for enhanced PR generation
+        </p>
       </header>
       
       <main>

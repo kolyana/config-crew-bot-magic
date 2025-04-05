@@ -7,12 +7,14 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Loader2 } from 'lucide-react';
 
 interface GatekeeperFormProps {
   onSubmit: (data: GatekeeperPRData) => void;
+  isLoading?: boolean;
 }
 
-export const GatekeeperForm: React.FC<GatekeeperFormProps> = ({ onSubmit }) => {
+export const GatekeeperForm: React.FC<GatekeeperFormProps> = ({ onSubmit, isLoading = false }) => {
   const [formData, setFormData] = React.useState<GatekeeperPRData>({
     routeName: '',
     namespace: '',
@@ -57,6 +59,7 @@ export const GatekeeperForm: React.FC<GatekeeperFormProps> = ({ onSubmit }) => {
           onChange={(e) => handleChange('routeName', e.target.value)}
           placeholder="user-service-route"
           required
+          disabled={isLoading}
         />
       </div>
 
@@ -65,6 +68,7 @@ export const GatekeeperForm: React.FC<GatekeeperFormProps> = ({ onSubmit }) => {
         <Select 
           value={formData.namespace} 
           onValueChange={(value) => handleChange('namespace', value)}
+          disabled={isLoading}
         >
           <SelectTrigger>
             <SelectValue placeholder="Select namespace" />
@@ -87,6 +91,7 @@ export const GatekeeperForm: React.FC<GatekeeperFormProps> = ({ onSubmit }) => {
           onChange={(e) => handleChange('publicPath', e.target.value)}
           placeholder="/api/users"
           required
+          disabled={isLoading}
         />
       </div>
 
@@ -98,6 +103,7 @@ export const GatekeeperForm: React.FC<GatekeeperFormProps> = ({ onSubmit }) => {
           onChange={(e) => handleChange('privatePath', e.target.value)}
           placeholder="/users"
           required
+          disabled={isLoading}
         />
       </div>
 
@@ -110,6 +116,7 @@ export const GatekeeperForm: React.FC<GatekeeperFormProps> = ({ onSubmit }) => {
                 id={`method-${method}`}
                 checked={formData.methods.includes(method)}
                 onCheckedChange={() => handleMethodToggle(method)}
+                disabled={isLoading}
               />
               <Label htmlFor={`method-${method}`} className="text-sm font-normal">
                 {method}
@@ -124,6 +131,7 @@ export const GatekeeperForm: React.FC<GatekeeperFormProps> = ({ onSubmit }) => {
         <Select 
           value={formData.environment} 
           onValueChange={(value) => handleChange('environment', value)}
+          disabled={isLoading}
         >
           <SelectTrigger>
             <SelectValue placeholder="Select environment" />
@@ -146,6 +154,7 @@ export const GatekeeperForm: React.FC<GatekeeperFormProps> = ({ onSubmit }) => {
           onChange={(e) => handleChange('description', e.target.value)}
           placeholder="Brief description of the Gatekeeper route purpose"
           rows={3}
+          disabled={isLoading}
         />
       </div>
 
@@ -153,8 +162,16 @@ export const GatekeeperForm: React.FC<GatekeeperFormProps> = ({ onSubmit }) => {
         type="submit" 
         className="w-full"
         variant="default"
+        disabled={isLoading}
       >
-        Generate PR
+        {isLoading ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Generating...
+          </>
+        ) : (
+          'Generate PR'
+        )}
       </Button>
     </form>
   );
