@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,18 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				kafka: {
+					DEFAULT: 'hsl(340, 95%, 60%)',
+					light: 'hsl(340, 95%, 70%)'
+				},
+				kong: {
+					DEFAULT: 'hsl(200, 95%, 60%)',
+					light: 'hsl(200, 95%, 70%)'
+				},
+				gatekeeper: {
+					DEFAULT: 'hsl(120, 95%, 35%)',
+					light: 'hsl(120, 95%, 45%)'
 				}
 			},
 			borderRadius: {
@@ -84,11 +97,19 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'pulse-light': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0.5' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'pulse-light': 'pulse-light 1.5s ease-in-out infinite'
+			},
+			fontFamily: {
+				mono: ['JetBrains Mono', 'monospace', 'ui-monospace', 'SFMono-Regular']
 			}
 		}
 	},
